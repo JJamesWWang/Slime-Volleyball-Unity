@@ -60,4 +60,9 @@ public class MenuUI : MonoBehaviour
         menuPanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
+
+    public void OnExit()
+    {
+        Application.Quit();
+    }
 }
