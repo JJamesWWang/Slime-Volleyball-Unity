@@ -44,6 +44,7 @@ public class NormalGame : GameState
             players.Add(player4);
         }
 
+        ResetPlayers();
         SpawnBall(true);
     }
 
@@ -112,9 +113,9 @@ public class NormalGame : GameState
         {
             float volleyballX;
             if (left)
-                volleyballX = Player1Prefab.transform.position.x;
+                volleyballX = PLAYER1_DEFAULT_POSITION.x;
             else
-                volleyballX = Player2Prefab.transform.position.x;
+                volleyballX = PLAYER2_DEFAULT_POSITION.x;
 
             GameObject volleyball = Instantiate(VolleyballPrefab,
                 new Vector2(volleyballX, DROP_HEIGHT), Quaternion.identity);
