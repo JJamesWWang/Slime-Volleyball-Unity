@@ -44,17 +44,20 @@ public abstract class GameState : MonoBehaviour
     public abstract float NET_TOP { get; }
     public abstract float NET_LEFT { get; }
     public abstract float NET_RIGHT { get; }
-    public virtual float GAME_SPEED
-    {
-        get { return PlayerPrefs.GetFloat("Game Speed"); }
-    }
+    public virtual Vector2 PLAYER1_DEFAULT_POSITION {
+        get { return new Vector2(-18, 0); } }
+    public virtual Vector2 PLAYER2_DEFAULT_POSITION {
+        get { return new Vector2(17, 0); } }
+    public virtual Vector2 PLAYER3_DEFAULT_POSITION {
+        get { return new Vector2(-9, 0); } }
+    public virtual Vector2 PLAYER4_DEFAULT_POSITION {
+        get { return new Vector2(8, 0); } }
+    public virtual float GAME_SPEED {
+        get { return PlayerPrefs.GetFloat("Game Speed"); } }
     public virtual int POINTS_TO_WIN {
-        get { return PlayerPrefs.GetInt("Points To Win"); }
-    }
-    public virtual int VOLLEYBALLS
-    {
-        get { return PlayerPrefs.GetInt("Volleyballs"); }
-    }
+        get { return PlayerPrefs.GetInt("Points To Win"); } }
+    public virtual int VOLLEYBALLS {
+        get { return PlayerPrefs.GetInt("Volleyballs"); } }
 
     // Variables
     public abstract void Setup();

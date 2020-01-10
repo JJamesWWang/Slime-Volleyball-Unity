@@ -4,26 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float defaultXPosition = default;
-    [SerializeField] float defaultYPosition = default;
     [SerializeField] string horizontalAxis = default;
     [SerializeField] string verticalAxis = default;
 
     [HideInInspector] public int HSPEED {
-        get { return PlayerPrefs.GetInt("Horizontal Speed"); }
-    }
-    [HideInInspector] public int VSPEED
-    {
-        get { return PlayerPrefs.GetInt("Vertical Speed"); }
-    }
-    [HideInInspector] public float JUMP_TIME
-    {
-        get { return PlayerPrefs.GetFloat("Jump Time"); }
-    }
-    [HideInInspector] public float HOVER_TIME
-    {
-        get { return PlayerPrefs.GetFloat("Hover Time"); }
-    }
+        get { return PlayerPrefs.GetInt("Horizontal Speed"); } }
+    [HideInInspector] public int VSPEED {
+        get { return PlayerPrefs.GetInt("Vertical Speed"); } }
+    [HideInInspector] public float JUMP_TIME {
+        get { return PlayerPrefs.GetFloat("Jump Time"); } }
+    [HideInInspector] public float HOVER_TIME {
+        get { return PlayerPrefs.GetFloat("Hover Time"); } }
     public Side SIDE;
     public float DUNK_HEIGHT { get { return 0.4f; } }
     public float DUNK_STRENGTH { get { return 1000f; } }
@@ -68,7 +59,6 @@ public class PlayerController : MonoBehaviour
         jumpTimer = 0;
         hovering = false;
         hoveringTimer = 0;
-        transform.position = new Vector2(defaultXPosition, defaultYPosition);
     }
 
     Vector2 HandleMovement()
@@ -147,6 +137,7 @@ public class PlayerController : MonoBehaviour
             if (newY < GameState.Instance.GROUND)
             {
                 jumping = false;
+                return 0f;
             }
             return newY;
         }

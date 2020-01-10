@@ -85,7 +85,20 @@ public class NormalGame : GameState
     public override void ResetPlayers()
     {
         foreach (PlayerController player in players)
+        {
             player.Reset();
+
+            if (player.gameObject.name.Contains("Player 1"))
+                player.transform.position = PLAYER1_DEFAULT_POSITION;
+            else if (player.gameObject.name.Contains("Player 2"))
+                player.transform.position = PLAYER2_DEFAULT_POSITION;
+            else if (player.gameObject.name.Contains("Player 3"))
+                player.transform.position = PLAYER3_DEFAULT_POSITION;
+            else if (player.gameObject.name.Contains("Player 4"))
+                player.transform.position = PLAYER4_DEFAULT_POSITION;
+            else
+                Debug.Log("Unknown player detected: " + player.gameObject.name);
+        }
     }
 
     public override void SpawnBall(bool left)
