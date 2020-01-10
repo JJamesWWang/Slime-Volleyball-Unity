@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
-    [SerializeField] Text leftScoreText;
-    [SerializeField] Text rightScoreText;
-    [SerializeField] Text winnerText;
-    [SerializeField] GameObject pauseText;
-    [SerializeField] GameObject pausePanel;
+    [SerializeField] Text leftScoreText = default;
+    [SerializeField] Text rightScoreText = default;
+    [SerializeField] Text winnerText = default;
+    [SerializeField] GameObject pauseText = default;
+    [SerializeField] GameObject pausePanel = default;
 
     private void Awake()
     {

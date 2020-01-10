@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-    [SerializeField] GameObject menuPanel;
-    [SerializeField] GameObject settingsPanel;
-    [SerializeField] Text gameModeText;
+    [SerializeField] GameObject menuPanel = default;
+    [SerializeField] GameObject settingsPanel = default;
+    [SerializeField] Text gameModeText = default;
     //string[] gameModes = { "Normal", "Wall Protect", "Drop Shot",
     //    "Rally (4P)" };
     string[] gameModes = { "Normal" };

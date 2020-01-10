@@ -12,13 +12,13 @@ public enum Side
 
 public abstract class GameState : MonoBehaviour
 {
-    [SerializeField] protected GameObject VolleyballPrefab;
-    [SerializeField] protected PlayerController Player1Prefab;
-    [SerializeField] protected PlayerController Player2Prefab;
-    [SerializeField] protected PlayerController Player3Prefab;
-    [SerializeField] protected PlayerController Player4Prefab;
+    [SerializeField] protected GameObject VolleyballPrefab = default;
+    [SerializeField] protected PlayerController Player1Prefab = default;
+    [SerializeField] protected PlayerController Player2Prefab = default;
+    [SerializeField] protected PlayerController Player3Prefab = default;
+    [SerializeField] protected PlayerController Player4Prefab = default;
 
-    [SerializeField] protected MainUI ui;
+    [SerializeField] protected MainUI ui = default;
     protected int leftScore;
     protected int rightScore;
     [HideInInspector] public bool IsPaused { get; protected set; }

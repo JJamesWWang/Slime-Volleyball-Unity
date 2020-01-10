@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float defaultXPosition;
-    [SerializeField] float defaultYPosition;
-    [SerializeField] string horizontalAxis;
-    [SerializeField] string verticalAxis;
+    [SerializeField] float defaultXPosition = default;
+    [SerializeField] float defaultYPosition = default;
+    [SerializeField] string horizontalAxis = default;
+    [SerializeField] string verticalAxis = default;
 
     [HideInInspector] public int HSPEED {
         get { return PlayerPrefs.GetInt("Horizontal Speed"); }

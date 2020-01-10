@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SettingsUI : MonoBehaviour
 {
-    [SerializeField] GameObject menuPanel;
-    [SerializeField] GameObject settingsPanel;
+    [SerializeField] GameObject menuPanel = default;
+    [SerializeField] GameObject settingsPanel = default;
 
     public float defaultGameSpeed;
     public int defaultPointsToWin;
@@ -16,24 +16,24 @@ public class SettingsUI : MonoBehaviour
     public float defaultJumpTime;
     public float defaultHoverTime;
 
-    [SerializeField] Text gameSpeedValue;
-    [SerializeField] Text pointsToWinValue;
-    [SerializeField] Text volleyballsValue;
-    [SerializeField] Text horizontalSpeedValue;
-    [SerializeField] Text verticalSpeedValue;
-    [SerializeField] Text jumpTimeValue;
-    [SerializeField] Text hoverTimeValue;
+    [SerializeField] Text gameSpeedValue = default;
+    [SerializeField] Text pointsToWinValue = default;
+    [SerializeField] Text volleyballsValue = default;
+    [SerializeField] Text horizontalSpeedValue = default;
+    [SerializeField] Text verticalSpeedValue = default;
+    [SerializeField] Text jumpTimeValue = default;
+    [SerializeField] Text hoverTimeValue = default;
 
-    [SerializeField] Slider gameSpeedSlider;
-    [SerializeField] Slider pointsToWinSlider;
-    [SerializeField] Slider volleyballsSlider;
-    [SerializeField] Toggle spikesToggle;
-    [SerializeField] Slider horizontalSpeedSlider;
-    [SerializeField] Slider verticalSpeedSlider;
-    [SerializeField] Slider jumpTimeSlider;
-    [SerializeField] Slider hoverTimeSlider;
-    [SerializeField] Toggle player3Toggle;
-    [SerializeField] Toggle player4Toggle;
+    [SerializeField] Slider gameSpeedSlider = default;
+    [SerializeField] Slider pointsToWinSlider = default;
+    [SerializeField] Slider volleyballsSlider = default;
+    [SerializeField] Toggle spikesToggle = default;
+    [SerializeField] Slider horizontalSpeedSlider = default;
+    [SerializeField] Slider verticalSpeedSlider = default;
+    [SerializeField] Slider jumpTimeSlider = default;
+    [SerializeField] Slider hoverTimeSlider = default;
+    [SerializeField] Toggle player3Toggle = default;
+    [SerializeField] Toggle player4Toggle = default;
 
     private void Awake()
     {

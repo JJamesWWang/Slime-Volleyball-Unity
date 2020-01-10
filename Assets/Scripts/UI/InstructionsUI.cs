@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class InstructionsUI : MonoBehaviour
 {
-    [SerializeField] GameObject instructionsPanel;
-    [SerializeField] Sprite[] tutorialImages;
-    [SerializeField] Image currentImage;
-    [SerializeField] Text numbersText;
+    [SerializeField] GameObject instructionsPanel = default;
+    [SerializeField] Sprite[] tutorialImages = default;
+    [SerializeField] Image currentImage = default;
+    [SerializeField] Text numbersText = default;
     int imageIndex = 0;
 
     private void Start()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Volleyball : MonoBehaviour
 {
-    [SerializeField] public float RADIUS;
+    public float RADIUS;
     [HideInInspector] public bool SPIKES {
         get { return PlayerPrefs.GetInt("Spikes") == 1; }
     }
