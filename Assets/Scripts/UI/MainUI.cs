@@ -20,18 +20,53 @@ public class MainUI : MonoBehaviour
         pausePanel.SetActive(false);
     }
 
-    public void OnRestart()
+    private void Start()
     {
-        GameState.Instance.ResetGame();
+        AddListeners();
     }
 
-    public void UpdateScore(int leftScore, int rightScore)
+    void AddListeners()
+    {
+        Messenger.AddListener(GameEvent.GAME_PAUSED, Pause);
+        Messenger.AddListener(GameEvent.GAME_UNPAUSED, Unpause);
+        Messenger.AddListener<int, int>(GameEvent.SCORE_UPDATED, UpdateScore);
+        Messenger.AddListener<Side>(GameEvent.POINT_STARTED, (s) => {
+            StartCoroutine(FlashScore());
+        });
+        Messenger.AddListener<Side>(GameEvent.GAME_ENDED, ShowWinner);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !Game.Instance.IsOver)
+        {
+            if (!Game.Instance.IsPaused)
+                Messenger.Broadcast(GameEvent.GAME_PAUSED);
+            else
+                Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
+        }
+    }
+    public void OnRestart()
+    {
+        Messenger.Broadcast(GameEvent.GAME_RESET);
+        Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
+    }
+
+    void UpdateScore(int leftScore, int rightScore)
     {
         leftScoreText.text = "" + leftScore;
         rightScoreText.text = "" + rightScore;
     }
 
-    public void DisplayScore(bool show)
+    IEnumerator FlashScore()
+    {
+        DisplayScore(true);
+        yield return new WaitForSecondsRealtime(1);
+        if (!Game.Instance.IsPaused)
+            DisplayScore(false);
+    }
+
+    void DisplayScore(bool show)
     {
         leftScoreText.gameObject.SetActive(show);
         rightScoreText.gameObject.SetActive(show);
@@ -51,17 +86,17 @@ public class MainUI : MonoBehaviour
         DisplayScore(false);
     }
 
-    public void ShowWinner(bool leftWon)
+    void ShowWinner(Side side)
     {
         DisplayScore(true);
         pausePanel.SetActive(true);
-        if (leftWon)
-        {
+        if (side == Side.LEFT)
             winnerText.text = "Left Team Wins!";
-        } else
-        {
+        else if (side == Side.RIGHT)
             winnerText.text = "Right Team Wins!";
-        }
+        else
+            winnerText.text = "Victory!";
+
         pauseText.SetActive(false);
         winnerText.gameObject.SetActive(true);
 
@@ -69,7 +104,7 @@ public class MainUI : MonoBehaviour
 
     public void OnMainMenu()
     {
-        GameState.Instance.Unpause();
+        Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
         SceneManager.LoadScene("Menu");
     }
 
