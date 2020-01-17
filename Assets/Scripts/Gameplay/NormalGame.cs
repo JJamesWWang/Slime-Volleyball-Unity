@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalGame : GameState
+public class NormalGame : Game
 {
     public override float CENTER { get { return -0.5f; } }
     public override float DROP_HEIGHT { get { return 15f; } }
@@ -21,90 +21,37 @@ public class NormalGame : GameState
         if (PlayerPrefs.GetString("Game Mode").Equals("Normal"))
         {
             Instance = this;
-            Setup();
         }
     }
 
-    public override void Setup()
+    protected override void Start()
     {
-        player1 = Instantiate(Player1Prefab);
-        players.Add(player1);
+        base.Start();
+        Setup();
+    }
 
-        player2 = Instantiate(Player2Prefab);
-        players.Add(player2);
+    protected override void AddListeners()
+    {
+        base.AddListeners();
+        Messenger.AddListener<Volleyball, ScoreArea>(
+            GameEvent.SCORE_AREA_CONTACT, OnScoreAreaContact);
+    }
 
-        if (PlayerPrefs.GetInt("Player 3") == 1)
-        {
-            player3 = Instantiate(Player3Prefab);
-            players.Add(player3);
-        }
-        if (PlayerPrefs.GetInt("Player 4") == 1)
-        {
-            player4 = Instantiate(Player4Prefab);
-            players.Add(player4);
-        }
+    protected override void Setup()
+    {
+        base.Setup();
+        Messenger.Broadcast(GameEvent.GAME_STARTED);
+    }
 
+    protected override void StartGame()
+    {
+        Messenger.Broadcast<Side>(GameEvent.POINT_STARTED, Side.LEFT);
+    }
+
+    protected override void StartPoint(Side side)
+    {
         ResetPlayers();
-        SpawnBall(true);
-    }
-
-    public override void EndPoint(Side side)
-    {
-        foreach (GameObject volleyball in volleyballs)
-            Destroy(volleyball);
-
-        volleyballs.Clear();
-
-        if (side == Side.LEFT)
-            rightScore += 1;
-        else if (side == Side.RIGHT)
-            leftScore += 1;
-
-        ui.UpdateScore(leftScore, rightScore);
-        if (leftScore == POINTS_TO_WIN || rightScore == POINTS_TO_WIN)
-            HandleWin();
-        else
-            StartCoroutine(StartNextPoint(side));
-    }
-
-    private void HandleWin()
-    {
-        Pause();
-        IsOver = true;
-        ui.ShowWinner(leftScore == POINTS_TO_WIN);
-    }
-
-    IEnumerator StartNextPoint(Side side)
-    {
-        ui.DisplayScore(true);
-        yield return new WaitForSeconds(1);
-        ui.DisplayScore(false);
-        ResetPlayers();
-        SpawnBall(side == Side.RIGHT);
-    }
-
-    public override void ResetPlayers()
-    {
-        foreach (PlayerController player in players)
-        {
-            player.Reset();
-
-            if (player.gameObject.name.Contains("Player 1"))
-                player.transform.position = PLAYER1_DEFAULT_POSITION;
-            else if (player.gameObject.name.Contains("Player 2"))
-                player.transform.position = PLAYER2_DEFAULT_POSITION;
-            else if (player.gameObject.name.Contains("Player 3"))
-                player.transform.position = PLAYER3_DEFAULT_POSITION;
-            else if (player.gameObject.name.Contains("Player 4"))
-                player.transform.position = PLAYER4_DEFAULT_POSITION;
-            else
-                Debug.Log("Unknown player detected: " + player.gameObject.name);
-        }
-    }
-
-    public override void SpawnBall(bool left)
-    {
-        StartCoroutine(SpawnBall(left, VOLLEYBALLS));
+        StartCoroutine(SpawnBall(side == Side.RIGHT, VOLLEYBALLS));
     }
 
     private IEnumerator SpawnBall(bool left, int numVolleyballs)
@@ -125,5 +72,44 @@ public class NormalGame : GameState
             numVolleyballs -= 1;
             left = !left;
         }
+    }
+
+    private void OnScoreAreaContact(Volleyball volleyball, ScoreArea area)
+    {
+        Messenger.Broadcast(GameEvent.POINT_ENDED, area.side);
+    }
+
+    protected override void EndPoint(Side side)
+    {
+        foreach (GameObject volleyball in volleyballs)
+            Destroy(volleyball);
+        volleyballs.Clear();
+
+        if (side == Side.LEFT)
+            rightScore += 1;
+        else if (side == Side.RIGHT)
+            leftScore += 1;
+        Messenger.Broadcast(GameEvent.SCORE_UPDATED, leftScore, rightScore);
+
+        if (leftScore == POINTS_TO_WIN || rightScore == POINTS_TO_WIN)
+            Messenger.Broadcast(GameEvent.GAME_ENDED, side);
+        else
+            Messenger.Broadcast(GameEvent.POINT_STARTED, side);
+
+    }
+
+    protected override void EndGame(Side side)
+    {
+        base.EndGame(side);
+        Messenger.Broadcast(GameEvent.GAME_PAUSED);
+    }
+
+    protected override void ResetGame()
+    {
+        base.ResetGame();
+        foreach (GameObject volleyball in volleyballs)
+            Destroy(volleyball);
+        volleyballs.Clear();
+        Messenger.Broadcast(GameEvent.GAME_STARTED);
     }
 }
