@@ -10,12 +10,20 @@ public class InstructionsUI : MonoBehaviour
     [SerializeField] Image currentImage = default;
     [SerializeField] Text numbersText = default;
     int imageIndex = 0;
+    bool instructionsShown;
 
     private void Start()
     {
-        if (GameState.Instance != null && !GameState.Instance.IsOver)
+        Messenger.AddListener(GameEvent.GAME_STARTED, OnGameStart);
+    }
+
+    private void OnGameStart()
+    {
+        if (!instructionsShown)
         {
-            GameState.Instance.Pause();
+            Messenger.Broadcast(GameEvent.GAME_PAUSED);
+            gameObject.SetActive(true);
+            instructionsShown = true;
         }
     }
 
@@ -28,7 +36,7 @@ public class InstructionsUI : MonoBehaviour
 
     public void OnRightButton()
     {
-        imageIndex = Mathf.Min(imageIndex + 1, tutorialImages.Length);
+        imageIndex = Mathf.Min(imageIndex + 1, tutorialImages.Length - 1);
         currentImage.sprite = tutorialImages[imageIndex];
         numbersText.text = (imageIndex + 1) + " / " + tutorialImages.Length;
     }
@@ -36,9 +44,6 @@ public class InstructionsUI : MonoBehaviour
     public void OnClose()
     {
         instructionsPanel.SetActive(false);
-        if (GameState.Instance != null && !GameState.Instance.IsOver)
-        {
-            GameState.Instance.Unpause();
-        }
+        Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
     }
 }
