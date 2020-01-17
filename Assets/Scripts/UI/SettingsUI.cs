@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Additional Thoughts:
+// * Allow volleyball collision
+// & Allow players to cross sides
+// & Allow players to stand on net
 public class SettingsUI : MonoBehaviour
 {
     [SerializeField] GameObject menuPanel = default;
