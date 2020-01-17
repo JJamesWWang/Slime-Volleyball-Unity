@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] string horizontalAxis = default;
     [SerializeField] string verticalAxis = default;
+    [SerializeField] public Side SIDE = default;
 
     [HideInInspector] public int HSPEED {
         get { return PlayerPrefs.GetInt("Horizontal Speed"); } }
@@ -15,11 +16,12 @@ public class PlayerController : MonoBehaviour
         get { return PlayerPrefs.GetFloat("Jump Time"); } }
     [HideInInspector] public float HOVER_TIME {
         get { return PlayerPrefs.GetFloat("Hover Time"); } }
-    public Side SIDE;
     public float DUNK_HEIGHT { get { return 0.4f; } }
     public float DUNK_STRENGTH { get { return 1000f; } }
     public float XRADIUS { get { return 2f; } }
+    public float YRADIUS { get { return 1f; } }
 
+    Rigidbody2D body;
     float leftXBound;
     float rightXBound;
 
@@ -30,27 +32,31 @@ public class PlayerController : MonoBehaviour
     float hoveringTimer;
     bool hovering;
 
+    bool allowMovement;
+
     // Start is called before the first frame update
     void Start()
     {
         if (SIDE == Side.UNSET)
             throw new UnassignedReferenceException("Player side unset");
 
+        body = GetComponent<Rigidbody2D>();
         if (gameObject.layer == LayerMask.NameToLayer("Left Players"))
         {
-            leftXBound = GameState.Instance.LEFT_WALLX + XRADIUS;
-            rightXBound = GameState.Instance.NET_LEFT - XRADIUS;
+            leftXBound = Game.Instance.LEFT_WALLX + XRADIUS;
+            rightXBound = Game.Instance.NET_LEFT - XRADIUS;
         } else if (gameObject.layer == LayerMask.NameToLayer("Right Players"))
         {
-            leftXBound = GameState.Instance.NET_RIGHT + XRADIUS;
-            rightXBound = GameState.Instance.RIGHT_WALLX - XRADIUS;
+            leftXBound = Game.Instance.NET_RIGHT + XRADIUS;
+            rightXBound = Game.Instance.RIGHT_WALLX - XRADIUS;
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = HandleMovement();
+        if (allowMovement)
+            body.position = HandleMovement();
     }
 
     public void Reset()
@@ -71,6 +77,11 @@ public class PlayerController : MonoBehaviour
         return new Vector2(getNewX(), getNewY());
     }
 
+    public void AllowMovement(bool allow)
+    {
+        allowMovement = allow;
+    }
+
 
     private void StartJump()
     {
@@ -87,8 +98,8 @@ public class PlayerController : MonoBehaviour
     }
 
     float getNewX()
-    {
-        return Mathf.Clamp(transform.position.x +
+   {
+        return Mathf.Clamp(body.position.x +
             Input.GetAxis(horizontalAxis) * HSPEED * Time.deltaTime,
             leftXBound, rightXBound);
     }
@@ -110,7 +121,7 @@ public class PlayerController : MonoBehaviour
             if (hoveringTimer < 0)
                 StartFall();
         }
-        return transform.position.y;
+        return body.position.y;
     }
 
     private float Jump()
@@ -118,10 +129,10 @@ public class PlayerController : MonoBehaviour
         if (jumpTimer < 0)
         {
             StartHover();
-            return transform.position.y;
+            return body.position.y;
         }
         else
-            return transform.position.y + VSPEED * Time.deltaTime;
+            return body.position.y + VSPEED * Time.deltaTime;
     }
 
     private float Fall()
@@ -133,8 +144,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float newY = transform.position.y - VSPEED * Time.deltaTime;
-            if (newY < GameState.Instance.GROUND)
+            float newY = body.position.y - VSPEED * Time.deltaTime;
+            if (newY < Game.Instance.GROUND)
             {
                 jumping = false;
                 return 0f;
