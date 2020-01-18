@@ -84,22 +84,22 @@ public class MainUI : MonoBehaviour
         pauseText.SetActive(false);
         pausePanel.SetActive(false);
         DisplayScore(false);
+        winnerText.gameObject.SetActive(false);
     }
 
     void ShowWinner(Side side)
     {
         DisplayScore(true);
         pausePanel.SetActive(true);
-        if (side == Side.LEFT)
+        if (side == Side.RIGHT)
             winnerText.text = "Left Team Wins!";
-        else if (side == Side.RIGHT)
+        else if (side == Side.LEFT)
             winnerText.text = "Right Team Wins!";
         else
             winnerText.text = "Victory!";
 
         pauseText.SetActive(false);
         winnerText.gameObject.SetActive(true);
-
     }
 
     public void OnMainMenu()
