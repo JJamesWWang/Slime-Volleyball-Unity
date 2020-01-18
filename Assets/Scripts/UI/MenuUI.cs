@@ -9,9 +9,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject menuPanel = default;
     [SerializeField] GameObject settingsPanel = default;
     [SerializeField] Text gameModeText = default;
-    //string[] gameModes = { "Normal", "Wall Protect", "Drop Shot",
-    //    "Rally (4P)" };
-    string[] gameModes = { "Normal" };
+    string[] gameModes = { "Normal", "Wall Protect", "Drop Shot" };
     int gameModeIndex = 0;
 
     private void Start()
