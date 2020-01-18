@@ -56,6 +56,12 @@ public class NormalGame : Game
 
     private IEnumerator SpawnBall(bool left, int numVolleyballs)
     {
+        foreach (PlayerController player in players)
+            player.AllowMovement(false);
+        yield return new WaitForSecondsRealtime(0.5f);
+        foreach (PlayerController player in players)
+            player.AllowMovement(true);
+
         while (numVolleyballs > 0)
         {
             float volleyballX;
