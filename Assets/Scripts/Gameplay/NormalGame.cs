@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NormalGame : Game
 {
+    [SerializeField] protected GameObject Map = default;
+
     public override float CENTER { get { return -0.5f; } }
     public override float DROP_HEIGHT { get { return 15f; } }
     public override float DROP_DELAY { get { return 0.1f; } }
@@ -15,26 +17,32 @@ public class NormalGame : Game
     public override float NET_LEFT { get { return -1f; } }
     public override float NET_RIGHT { get { return 0f; } }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        Init();
         if (PlayerPrefs.GetString("Game Mode").Equals("Normal"))
         {
             Instance = this;
+            Map.SetActive(true);
         }
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-        Setup();
+        if (PlayerPrefs.GetString("Game Mode").Equals("Normal"))
+        {
+            AddListeners();
+            Setup();
+        }
     }
 
     protected override void AddListeners()
     {
         base.AddListeners();
         Messenger.AddListener<Volleyball, ScoreArea>(
-            GameEvent.SCORE_AREA_CONTACT, OnScoreAreaContact);
+            GameEvent.SCORE_AREA_CONTACT, (v, a) => {
+                Messenger.Broadcast(GameEvent.POINT_ENDED, a.side);
+            });
     }
 
     protected override void Setup()
@@ -51,44 +59,49 @@ public class NormalGame : Game
     protected override void StartPoint(Side side)
     {
         ResetPlayers();
-        StartCoroutine(SpawnBall(side == Side.RIGHT, VOLLEYBALLS));
+        StartCoroutine(SpawnBall(side, VOLLEYBALLS));
     }
 
-    private IEnumerator SpawnBall(bool left, int numVolleyballs)
+    private IEnumerator SpawnBall(Side side, int numVolleyballs)
     {
-        foreach (PlayerController player in players)
-            player.AllowMovement(false);
-        yield return new WaitForSecondsRealtime(0.5f);
-        foreach (PlayerController player in players)
-            player.AllowMovement(true);
-
+        yield return DisableUserInput(0.5f);
         while (numVolleyballs > 0)
         {
-            float volleyballX;
-            if (left)
+            float volleyballX = Game.Instance.CENTER;
+            if (side == Side.RIGHT)
                 volleyballX = PLAYER1_DEFAULT_POSITION.x;
-            else
+            else if (side == Side.LEFT)
                 volleyballX = PLAYER2_DEFAULT_POSITION.x;
 
-            GameObject volleyball = Instantiate(VolleyballPrefab,
-                new Vector2(volleyballX, DROP_HEIGHT), Quaternion.identity);
+            Volleyball volleyball = Instantiate(VolleyballPrefab,
+                new Vector2(volleyballX, DROP_HEIGHT), Quaternion.identity)
+                .GetComponent<Volleyball>();
 
             volleyballs.Add(volleyball);
+            Messenger.Broadcast(GameEvent.VOLLEYBALL_DROPPED, volleyball, side);
             yield return new WaitForSecondsRealtime(DROP_DELAY);
             numVolleyballs -= 1;
-            left = !left;
+
+            if (side == Side.LEFT)
+                side = Side.RIGHT;
+            else if (side == Side.RIGHT)
+                side = Side.LEFT;
         }
     }
 
-    private void OnScoreAreaContact(Volleyball volleyball, ScoreArea area)
+    private IEnumerator DisableUserInput(float seconds)
     {
-        Messenger.Broadcast(GameEvent.POINT_ENDED, area.side);
+        foreach (PlayerController player in players)
+            player.AllowMovement(false);
+        yield return new WaitForSecondsRealtime(seconds);
+        foreach (PlayerController player in players)
+            player.AllowMovement(true);
     }
 
     protected override void EndPoint(Side side)
     {
-        foreach (GameObject volleyball in volleyballs)
-            Destroy(volleyball);
+        foreach (Volleyball volleyball in volleyballs)
+            Destroy(volleyball.gameObject);
         volleyballs.Clear();
 
         if (side == Side.LEFT)
@@ -98,7 +111,10 @@ public class NormalGame : Game
         Messenger.Broadcast(GameEvent.SCORE_UPDATED, leftScore, rightScore);
 
         if (leftScore == POINTS_TO_WIN || rightScore == POINTS_TO_WIN)
+        {
+            Messenger.Broadcast(GameEvent.GAME_PAUSED);
             Messenger.Broadcast(GameEvent.GAME_ENDED, side);
+        }
         else
             Messenger.Broadcast(GameEvent.POINT_STARTED, side);
 
@@ -107,14 +123,13 @@ public class NormalGame : Game
     protected override void EndGame(Side side)
     {
         base.EndGame(side);
-        Messenger.Broadcast(GameEvent.GAME_PAUSED);
     }
 
     protected override void ResetGame()
     {
         base.ResetGame();
-        foreach (GameObject volleyball in volleyballs)
-            Destroy(volleyball);
+        foreach (Volleyball volleyball in volleyballs)
+            Destroy(volleyball.gameObject);
         volleyballs.Clear();
         Messenger.Broadcast(GameEvent.GAME_STARTED);
     }
