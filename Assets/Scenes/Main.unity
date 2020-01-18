@@ -246,7 +246,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174121503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -363,7 +363,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271179303}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -799,7 +799,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968619779}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3075,7 +3075,7 @@ PrefabInstance:
     - target: {fileID: 7502199528359966391, guid: a95d7154b72f1ed41bf5089d16dec46e,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7502199528359966391, guid: a95d7154b72f1ed41bf5089d16dec46e,
         type: 3}
@@ -4782,7 +4782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1493592732
 Transform:
   m_ObjectHideFlags: 0
@@ -4991,6 +4991,7 @@ MonoBehaviour:
     type: 3}
   Player4Prefab: {fileID: 7279902810262133919, guid: 417bdff510ad18748af0d8828310727a,
     type: 3}
+  Map: {fileID: 1493592731}
 --- !u!1 &1939053226
 GameObject:
   m_ObjectHideFlags: 0
@@ -5296,7 +5297,7 @@ PrefabInstance:
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
@@ -6172,7 +6173,7 @@ PrefabInstance:
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
