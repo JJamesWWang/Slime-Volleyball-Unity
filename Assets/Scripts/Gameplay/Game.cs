@@ -12,7 +12,7 @@ public enum Side
 
 public abstract class Game : MonoBehaviour
 {
-    [SerializeField] protected GameObject VolleyballPrefab = default;
+    [SerializeField] protected Volleyball VolleyballPrefab = default;
     [SerializeField] protected PlayerController Player1Prefab = default;
     [SerializeField] protected PlayerController Player2Prefab = default;
     [SerializeField] protected PlayerController Player3Prefab = default;
@@ -28,7 +28,7 @@ public abstract class Game : MonoBehaviour
     protected PlayerController player3;
     protected PlayerController player4;
     protected List<PlayerController> players = new List<PlayerController>();
-    protected List<GameObject> volleyballs = new List<GameObject>();
+    protected List<Volleyball> volleyballs = new List<Volleyball>();
 
     public static Game Instance { get; protected set; }
 
@@ -57,15 +57,6 @@ public abstract class Game : MonoBehaviour
         get { return PlayerPrefs.GetInt("Points To Win"); } }
     public int VOLLEYBALLS {
         get { return PlayerPrefs.GetInt("Volleyballs"); } }
-
-    protected virtual void Awake()
-    {
-        Init();
-    }
-    protected virtual void Start()
-    {
-        AddListeners();
-    }
 
     protected virtual void Init()
     {
