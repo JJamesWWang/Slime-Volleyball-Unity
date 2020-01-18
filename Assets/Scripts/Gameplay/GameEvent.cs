@@ -20,7 +20,6 @@ public class GameEvent : MonoBehaviour
     public const string SPIKE_HIT = "SPIKE_HIT";            //<Volleyball, PlayerController>
 
     // UI related
-
     public const string SCORE_UPDATED = "SCORE_UPDATED";    //<int, int>
 
 }
