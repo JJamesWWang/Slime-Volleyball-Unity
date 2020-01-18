@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     public float XRADIUS { get { return 2f; } }
     public float YRADIUS { get { return 1f; } }
 
-    Rigidbody2D body;
     float leftXBound;
     float rightXBound;
 
@@ -32,7 +31,7 @@ public class PlayerController : MonoBehaviour
     float hoveringTimer;
     bool hovering;
 
-    bool allowMovement;
+    bool allowMovement = true;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +39,6 @@ public class PlayerController : MonoBehaviour
         if (SIDE == Side.UNSET)
             throw new UnassignedReferenceException("Player side unset");
 
-        body = GetComponent<Rigidbody2D>();
         if (gameObject.layer == LayerMask.NameToLayer("Left Players"))
         {
             leftXBound = Game.Instance.LEFT_WALLX + XRADIUS;
@@ -56,7 +54,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (allowMovement)
-            body.position = HandleMovement();
+            transform.position = HandleMovement();
     }
 
     public void Reset()
@@ -99,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     float getNewX()
    {
-        return Mathf.Clamp(body.position.x +
+        return Mathf.Clamp(transform.position.x +
             Input.GetAxis(horizontalAxis) * HSPEED * Time.deltaTime,
             leftXBound, rightXBound);
     }
@@ -121,7 +119,7 @@ public class PlayerController : MonoBehaviour
             if (hoveringTimer < 0)
                 StartFall();
         }
-        return body.position.y;
+        return transform.position.y;
     }
 
     private float Jump()
@@ -129,10 +127,10 @@ public class PlayerController : MonoBehaviour
         if (jumpTimer < 0)
         {
             StartHover();
-            return body.position.y;
+            return transform.position.y;
         }
         else
-            return body.position.y + VSPEED * Time.deltaTime;
+            return transform.position.y + VSPEED * Time.deltaTime;
     }
 
     private float Fall()
@@ -144,7 +142,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float newY = body.position.y - VSPEED * Time.deltaTime;
+            float newY = transform.position.y - VSPEED * Time.deltaTime;
             if (newY < Game.Instance.GROUND)
             {
                 jumping = false;
