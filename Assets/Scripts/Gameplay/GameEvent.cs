@@ -14,6 +14,7 @@ public class GameEvent : MonoBehaviour
     public const string GAME_RESET = "GAME_RESET";          //<>
 
     // Volleyball related
+    public const string VOLLEYBALL_DROPPED = "VOLLEYBALL_DROPPED";      //<Volleyball, Side>
     public const string PLAYER_CONTACT = "PLAYER_CONTACT";  //<Volleyball, PlayerController>
     public const string WALL_CONTACT = "WALL_CONTACT";      //<Volleyball, Tilemap>
     public const string SCORE_AREA_CONTACT = "SCORE_AREA_CONTACT";      //<Volleyball, ScoreArea>
@@ -21,5 +22,4 @@ public class GameEvent : MonoBehaviour
 
     // UI related
     public const string SCORE_UPDATED = "SCORE_UPDATED";    //<int, int>
-
 }
