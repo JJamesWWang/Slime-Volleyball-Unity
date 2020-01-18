@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] string horizontalAxis = default;
     [SerializeField] string verticalAxis = default;
+    [SerializeField] public Side SIDE = default;
 
     [HideInInspector] public int HSPEED {
         get { return PlayerPrefs.GetInt("Horizontal Speed"); } }
@@ -15,10 +16,10 @@ public class PlayerController : MonoBehaviour
         get { return PlayerPrefs.GetFloat("Jump Time"); } }
     [HideInInspector] public float HOVER_TIME {
         get { return PlayerPrefs.GetFloat("Hover Time"); } }
-    public Side SIDE;
     public float DUNK_HEIGHT { get { return 0.4f; } }
     public float DUNK_STRENGTH { get { return 1000f; } }
     public float XRADIUS { get { return 2f; } }
+    public float YRADIUS { get { return 1f; } }
 
     float leftXBound;
     float rightXBound;
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour
     float hoveringTimer;
     bool hovering;
 
+    bool allowMovement = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,19 +41,20 @@ public class PlayerController : MonoBehaviour
 
         if (gameObject.layer == LayerMask.NameToLayer("Left Players"))
         {
-            leftXBound = GameState.Instance.LEFT_WALLX + XRADIUS;
-            rightXBound = GameState.Instance.NET_LEFT - XRADIUS;
+            leftXBound = Game.Instance.LEFT_WALLX + XRADIUS;
+            rightXBound = Game.Instance.NET_LEFT - XRADIUS;
         } else if (gameObject.layer == LayerMask.NameToLayer("Right Players"))
         {
-            leftXBound = GameState.Instance.NET_RIGHT + XRADIUS;
-            rightXBound = GameState.Instance.RIGHT_WALLX - XRADIUS;
+            leftXBound = Game.Instance.NET_RIGHT + XRADIUS;
+            rightXBound = Game.Instance.RIGHT_WALLX - XRADIUS;
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = HandleMovement();
+        if (allowMovement)
+            transform.position = HandleMovement();
     }
 
     public void Reset()
@@ -71,6 +75,11 @@ public class PlayerController : MonoBehaviour
         return new Vector2(getNewX(), getNewY());
     }
 
+    public void AllowMovement(bool allow)
+    {
+        allowMovement = allow;
+    }
+
 
     private void StartJump()
     {
@@ -87,7 +96,7 @@ public class PlayerController : MonoBehaviour
     }
 
     float getNewX()
-    {
+   {
         return Mathf.Clamp(transform.position.x +
             Input.GetAxis(horizontalAxis) * HSPEED * Time.deltaTime,
             leftXBound, rightXBound);
@@ -134,7 +143,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             float newY = transform.position.y - VSPEED * Time.deltaTime;
-            if (newY < GameState.Instance.GROUND)
+            if (newY < Game.Instance.GROUND)
             {
                 jumping = false;
                 return 0f;
