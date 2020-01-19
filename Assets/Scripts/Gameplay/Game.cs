@@ -58,14 +58,6 @@ public abstract class Game : MonoBehaviour
     public int VOLLEYBALLS {
         get { return PlayerPrefs.GetInt("Volleyballs"); } }
 
-    protected virtual void Init()
-    {
-        leftScore = 0;
-        rightScore = 0;
-        IsOver = false;
-        Messenger.Broadcast(GameEvent.SCORE_UPDATED, 0, 0);
-    }
-
     protected virtual void AddListeners()
     {
         Messenger.AddListener(GameEvent.GAME_STARTED, StartGame);
@@ -77,7 +69,27 @@ public abstract class Game : MonoBehaviour
         Messenger.AddListener(GameEvent.GAME_RESET, ResetGame);
     }
 
+    protected virtual void Awake()
+    {
+        if (PlayerPrefs.GetInt("Use Defaults") == 1)
+            UseDefaults();
+    }
+
     protected virtual void Setup()
+    {
+        Init();
+        InstantiatePlayers();
+    }
+
+    protected virtual void Init()
+    {
+        leftScore = 0;
+        rightScore = 0;
+        IsOver = false;
+        Messenger.Broadcast(GameEvent.SCORE_UPDATED, 0, 0);
+    }
+
+    protected virtual void InstantiatePlayers()
     {
         player1 = Instantiate(Player1Prefab);
         players.Add(player1);
@@ -97,6 +109,7 @@ public abstract class Game : MonoBehaviour
         }
     }
 
+    protected abstract void UseDefaults();
     protected abstract void StartGame();
     protected abstract void StartPoint(Side side);
     protected abstract void EndPoint(Side side);
@@ -138,7 +151,7 @@ public abstract class Game : MonoBehaviour
 
     protected virtual void ResetGame()
     {
-        Init();
+        Setup();
     }
 
 }
