@@ -17,9 +17,9 @@ public class NormalGame : Game
     public override float NET_LEFT { get { return -1f; } }
     public override float NET_RIGHT { get { return 0f; } }
 
-    private void Awake()
+    protected override void Awake()
     {
-        Init();
+        base.Awake();
         if (PlayerPrefs.GetString("Game Mode").Equals("Normal"))
         {
             Instance = this;
@@ -49,6 +49,22 @@ public class NormalGame : Game
     {
         base.Setup();
         Messenger.Broadcast(GameEvent.GAME_STARTED);
+    }
+
+    protected override void UseDefaults()
+    {
+        PlayerPrefs.SetFloat("Game Speed", 1f);
+        PlayerPrefs.SetInt("Points To Win", 11);
+        PlayerPrefs.SetInt("Volleyballs", 1);
+        PlayerPrefs.SetInt("Spikes", 1);
+        PlayerPrefs.SetInt("Use Defaults", 1);
+        PlayerPrefs.SetInt("Ball Collision", 0);
+        PlayerPrefs.SetInt("Horizontal Speed", 10);
+        PlayerPrefs.SetInt("Vertical Speed", 8);
+        PlayerPrefs.SetFloat("Jump Time", 1f);
+        PlayerPrefs.SetFloat("Hover Time", 0.15f);
+        PlayerPrefs.SetInt("Player 3", 0);
+        PlayerPrefs.SetInt("Player 4", 0);
     }
 
     protected override void StartGame()
