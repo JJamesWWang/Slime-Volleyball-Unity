@@ -12,10 +12,16 @@ public abstract class Volleyball : MonoBehaviour
     [HideInInspector] public bool SPIKES {
         get { return PlayerPrefs.GetInt("Spikes") == 1; } }
 
-    protected virtual void Start()
+    void Start()
     {
         AddListeners();
         SceneManager.sceneUnloaded += (s) => { addedListeners = false; };
+
+        int layer = LayerMask.GetMask("Volleyball");
+        if (PlayerPrefs.GetInt("Ball Collision") == 1)
+            Physics.IgnoreLayerCollision(layer, layer, false);
+        else
+            Physics.IgnoreLayerCollision(layer, layer, true);
     }
 
     protected virtual void AddListeners()
