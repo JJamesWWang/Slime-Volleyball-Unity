@@ -17,13 +17,14 @@ public class WallProtect : Game
     public override float NET_RIGHT { get { return 0f; } }
 
     [SerializeField] float DROP_FORCE = 1000f;
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
         if (PlayerPrefs.GetString("Game Mode").Equals("Wall Protect"))
         {
             Instance = this;
             Map.SetActive(true);
+            if (PlayerPrefs.GetInt("Use Defaults") == 1)
+                UseDefaults();
         }
     }
 
