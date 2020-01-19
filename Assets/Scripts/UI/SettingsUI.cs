@@ -91,6 +91,11 @@ public class SettingsUI : MonoBehaviour
         player4Toggle.isOn = PlayerPrefs.GetInt("Player 4") == 1;
     }
 
+    public void OnSettingChanged()
+    {
+        useDefaultsToggle.isOn = false;
+    }
+
     public void OnGameSpeedChanged(float value)
     {
         value = Mathf.Round(value * 4) / 4f;
