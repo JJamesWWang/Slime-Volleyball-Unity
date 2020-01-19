@@ -1313,7 +1313,7 @@ GameObject:
   - component: {fileID: 619389806}
   - component: {fileID: 619389807}
   m_Layer: 5
-  m_Name: Ball Collision Button
+  m_Name: Ball Collision Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6010,8 +6010,8 @@ MonoBehaviour:
   gameSpeedSlider: {fileID: 579575920}
   pointsToWinSlider: {fileID: 1893775188}
   volleyballsSlider: {fileID: 233733558}
-  useDefaultsToggle: {fileID: 0}
-  ballCollisionToggle: {fileID: 0}
+  useDefaultsToggle: {fileID: 2001675956}
+  ballCollisionToggle: {fileID: 619389807}
   spikesToggle: {fileID: 1057056113}
   horizontalSpeedSlider: {fileID: 1898976894}
   verticalSpeedSlider: {fileID: 501192129}
@@ -12817,7 +12817,7 @@ GameObject:
   - component: {fileID: 2001675955}
   - component: {fileID: 2001675956}
   m_Layer: 5
-  m_Name: Use Defaults Button
+  m_Name: Use Defaults Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
