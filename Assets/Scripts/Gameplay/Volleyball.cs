@@ -19,9 +19,9 @@ public abstract class Volleyball : MonoBehaviour
 
         int layer = LayerMask.NameToLayer("Volleyball");
         if (PlayerPrefs.GetInt("Ball Collision") == 1)
-            Physics.IgnoreLayerCollision(layer, layer, false);
+            Physics2D.IgnoreLayerCollision(layer, layer, false);
         else
-            Physics.IgnoreLayerCollision(layer, layer, true);
+            Physics2D.IgnoreLayerCollision(layer, layer, true);
     }
 
     protected virtual void AddListeners()
