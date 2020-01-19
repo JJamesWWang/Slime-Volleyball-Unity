@@ -17,7 +17,7 @@ public abstract class Volleyball : MonoBehaviour
         AddListeners();
         SceneManager.sceneUnloaded += (s) => { addedListeners = false; };
 
-        int layer = LayerMask.GetMask("Volleyball");
+        int layer = LayerMask.NameToLayer("Volleyball");
         if (PlayerPrefs.GetInt("Ball Collision") == 1)
             Physics.IgnoreLayerCollision(layer, layer, false);
         else

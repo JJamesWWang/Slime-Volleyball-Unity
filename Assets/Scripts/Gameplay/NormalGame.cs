@@ -17,13 +17,14 @@ public class NormalGame : Game
     public override float NET_LEFT { get { return -1f; } }
     public override float NET_RIGHT { get { return 0f; } }
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
         if (PlayerPrefs.GetString("Game Mode").Equals("Normal"))
         {
             Instance = this;
             Map.SetActive(true);
+            if (PlayerPrefs.GetInt("Use Defaults") == 1)
+                UseDefaults();
         }
     }
 

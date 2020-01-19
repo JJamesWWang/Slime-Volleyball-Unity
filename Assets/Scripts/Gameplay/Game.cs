@@ -69,12 +69,6 @@ public abstract class Game : MonoBehaviour
         Messenger.AddListener(GameEvent.GAME_RESET, ResetGame);
     }
 
-    protected virtual void Awake()
-    {
-        if (PlayerPrefs.GetInt("Use Defaults") == 1)
-            UseDefaults();
-    }
-
     protected virtual void Setup()
     {
         Init();
