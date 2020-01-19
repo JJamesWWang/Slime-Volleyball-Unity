@@ -31,6 +31,8 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] Slider gameSpeedSlider = default;
     [SerializeField] Slider pointsToWinSlider = default;
     [SerializeField] Slider volleyballsSlider = default;
+    [SerializeField] Toggle useDefaultsToggle = default;
+    [SerializeField] Toggle ballCollisionToggle = default;
     [SerializeField] Toggle spikesToggle = default;
     [SerializeField] Slider horizontalSpeedSlider = default;
     [SerializeField] Slider verticalSpeedSlider = default;
@@ -53,6 +55,10 @@ public class SettingsUI : MonoBehaviour
             PlayerPrefs.GetInt("Points To Win", defaultPointsToWin));
         PlayerPrefs.SetInt("Volleyballs",
             PlayerPrefs.GetInt("Volleyballs", defaultVolleyballs));
+        PlayerPrefs.SetInt("Use Defaults",
+            PlayerPrefs.GetInt("Use Defaults", 1));
+        PlayerPrefs.SetInt("Ball Collision",
+            PlayerPrefs.GetInt("Ball Collision", 0));
         PlayerPrefs.SetInt("Spikes",
             PlayerPrefs.GetInt("Spikes", 1));
         PlayerPrefs.SetInt("Horizontal Speed",
@@ -74,6 +80,8 @@ public class SettingsUI : MonoBehaviour
         gameSpeedSlider.value = PlayerPrefs.GetFloat("Game Speed");
         pointsToWinSlider.value = PlayerPrefs.GetInt("Points To Win");
         volleyballsSlider.value = PlayerPrefs.GetInt("Volleyballs");
+        useDefaultsToggle.isOn = PlayerPrefs.GetInt("Use Defaults") == 1;
+        ballCollisionToggle.isOn = PlayerPrefs.GetInt("Ball Collision") == 1;
         spikesToggle.isOn = PlayerPrefs.GetInt("Spikes") == 1;
         horizontalSpeedSlider.value = PlayerPrefs.GetInt("Horizontal Speed");
         verticalSpeedSlider.value = PlayerPrefs.GetInt("Vertical Speed");
@@ -125,19 +133,6 @@ public class SettingsUI : MonoBehaviour
         hoverTimeValue.text = "" + value;
     }
 
-    public void OnDefault()
-    {
-        gameSpeedSlider.value = defaultGameSpeed;
-        pointsToWinSlider.value = defaultPointsToWin;
-        volleyballsSlider.value = defaultVolleyballs;
-        spikesToggle.isOn = true;
-        horizontalSpeedSlider.value = defaultHorizontalSpeed;
-        verticalSpeedSlider.value = defaultVerticalSpeed;
-        jumpTimeSlider.value = defaultJumpTime;
-        hoverTimeSlider.value = defaultHoverTime;
-        player3Toggle.isOn = false;
-        player4Toggle.isOn = false;
-    }
     public void OnCancel()
     {
         settingsPanel.SetActive(false);
@@ -148,11 +143,13 @@ public class SettingsUI : MonoBehaviour
     {
         PlayerPrefs.SetFloat("Game Speed",
             float.Parse(gameSpeedValue.text));
-        PlayerPrefs.SetInt("Spikes", spikesToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("Points To Win",
             int.Parse(pointsToWinValue.text));
         PlayerPrefs.SetInt("Volleyballs",
             int.Parse(volleyballsValue.text));
+        PlayerPrefs.SetInt("Spikes", spikesToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("Use Defaults", useDefaultsToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("Ball Collision", ballCollisionToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("Horizontal Speed",
             int.Parse(horizontalSpeedValue.text));
         PlayerPrefs.SetInt("Vertical Speed",
