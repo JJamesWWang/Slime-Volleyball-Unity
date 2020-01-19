@@ -554,7 +554,7 @@ PrefabInstance:
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
@@ -1966,7 +1966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &720174468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2398,7 +2398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1018806024
 Transform:
   m_ObjectHideFlags: 0
@@ -8710,7 +8710,7 @@ PrefabInstance:
     - target: {fileID: 7502199528359966391, guid: a95d7154b72f1ed41bf5089d16dec46e,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7502199528359966391, guid: a95d7154b72f1ed41bf5089d16dec46e,
         type: 3}
@@ -10730,7 +10730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b3fa20b75297042b4330e14e2fe01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VolleyballPrefab: {fileID: 7388173483062788015, guid: 4dd59b41a6b10fa489a010c50b9bafbd,
+  VolleyballPrefab: {fileID: 1729890216662196395, guid: 4dd59b41a6b10fa489a010c50b9bafbd,
     type: 3}
   Player1Prefab: {fileID: 1332227505800980836, guid: c57e527d40a9d4c4e9454077873c917f,
     type: 3}
@@ -10753,7 +10753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12bf8531cb740604bb7ab9271297bc5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VolleyballPrefab: {fileID: 7388173483062788015, guid: 4dd59b41a6b10fa489a010c50b9bafbd,
+  VolleyballPrefab: {fileID: 1729890216662196395, guid: 4dd59b41a6b10fa489a010c50b9bafbd,
     type: 3}
   Player1Prefab: {fileID: 1332227505800980836, guid: c57e527d40a9d4c4e9454077873c917f,
     type: 3}
@@ -10764,6 +10764,7 @@ MonoBehaviour:
   Player4Prefab: {fileID: 7279902810262133919, guid: 417bdff510ad18748af0d8828310727a,
     type: 3}
   Map: {fileID: 1018806023}
+  DROP_FORCE: 300
 --- !u!4 &1926589731 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6448839323845694933, guid: 595206aca4ad5c64eaff68f9e545ac82,
@@ -10999,7 +11000,7 @@ PrefabInstance:
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3629437032575007225, guid: bfc546c947a01de4fa9fa5094261b23f,
         type: 3}
