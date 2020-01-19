@@ -6,7 +6,7 @@ public class NormalVolleyball : Volleyball
 {
     public override float RADIUS { get { return 0.5f; } }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Game.Instance != null)
             BoundBall();
