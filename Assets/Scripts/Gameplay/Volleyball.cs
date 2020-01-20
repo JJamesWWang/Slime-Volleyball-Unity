@@ -24,6 +24,11 @@ public abstract class Volleyball : MonoBehaviour
             Physics2D.IgnoreLayerCollision(layer, layer, true);
     }
 
+    void Update()
+    {
+        DetectOutOfBounds();
+    }
+
     protected virtual void AddListeners()
     {
         if (!addedListeners)
@@ -63,4 +68,23 @@ public abstract class Volleyball : MonoBehaviour
 
     protected abstract void DetectSpike(Volleyball v, PlayerController player);
     protected abstract void SpikeBall(Volleyball v, PlayerController player);
+    protected virtual void DetectOutOfBounds()
+    {
+        float posX = transform.position.x;
+        float posY = transform.position.y;
+
+        // Allow slight buffer
+        if (posX - RADIUS < Game.Instance.LEFT_WALLX - 0.01f)
+            Messenger.Broadcast(GameEvent.VOLLEYBALL_OUT_OF_BOUNDS,
+                this, Side.LEFT);
+        if (posX + RADIUS > Game.Instance.RIGHT_WALLX + 0.01f)
+            Messenger.Broadcast(GameEvent.VOLLEYBALL_OUT_OF_BOUNDS,
+                this, Side.RIGHT);
+        if (posY - RADIUS < Game.Instance.GROUND - 0.01f)
+            Messenger.Broadcast(GameEvent.VOLLEYBALL_OUT_OF_BOUNDS,
+                this, Side.GROUND);
+        if (posY + RADIUS > Game.Instance.CEILING + 0.01f)
+            Messenger.Broadcast(GameEvent.VOLLEYBALL_OUT_OF_BOUNDS,
+                this, Side.CEILING);
+    }
 }
