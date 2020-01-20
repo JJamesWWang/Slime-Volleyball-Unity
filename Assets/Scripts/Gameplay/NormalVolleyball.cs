@@ -6,25 +6,25 @@ public class NormalVolleyball : Volleyball
 {
     public override float RADIUS { get { return 0.5f; } }
 
-    void FixedUpdate()
+    protected override void AddListeners()
     {
-        if (Game.Instance != null)
-            BoundBall();
+        base.AddListeners();
+        Messenger.AddListener<Volleyball, Side>(
+            GameEvent.VOLLEYBALL_OUT_OF_BOUNDS, (v, s) => BoundBall(v, s));
     }
 
-    private void BoundBall()
+    private void BoundBall(Volleyball volleyball, Side side)
     {
-        Rigidbody2D body = GetComponent<Rigidbody2D>();
-        float posX = body.position.x;
-        float posY = body.position.y;
+        Rigidbody2D body = volleyball.GetComponent<Rigidbody2D>();
         Vector2 modifiedPosition = body.position;
 
-        if (posY - RADIUS <= Game.Instance.GROUND)
+        if (side == Side.CEILING)
+            modifiedPosition.y = Game.Instance.CEILING - RADIUS;
+        else if (side == Side.GROUND)
             modifiedPosition.y = Game.Instance.DROP_HEIGHT;
-
-        if (posX + RADIUS > Game.Instance.RIGHT_WALLX)
+        else if (side == Side.RIGHT)
             modifiedPosition.x = Game.Instance.RIGHT_WALLX - RADIUS;
-        else if (posX - RADIUS < Game.Instance.LEFT_WALLX)
+        else if (side == Side.LEFT)
             modifiedPosition.x = Game.Instance.LEFT_WALLX + RADIUS;
 
         body.position = modifiedPosition;
