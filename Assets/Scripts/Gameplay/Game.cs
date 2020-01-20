@@ -7,7 +7,9 @@ public enum Side
 {
     UNSET,
     LEFT,
-    RIGHT
+    RIGHT,
+    GROUND,
+    CEILING
 }
 
 public abstract class Game : MonoBehaviour

@@ -15,6 +15,7 @@ public class GameEvent : MonoBehaviour
 
     // Volleyball related
     public const string VOLLEYBALL_DROPPED = "VOLLEYBALL_DROPPED";      //<Volleyball, Side>
+    public const string VOLLEYBALL_OUT_OF_BOUNDS = "VOLLEYBALL_OUT_OF_BOUNDS";      //<Volleyball>
     public const string PLAYER_CONTACT = "PLAYER_CONTACT";  //<Volleyball, PlayerController>
     public const string WALL_CONTACT = "WALL_CONTACT";      //<Volleyball, Tilemap>
     public const string SCORE_AREA_CONTACT = "SCORE_AREA_CONTACT";      //<Volleyball, ScoreArea>
